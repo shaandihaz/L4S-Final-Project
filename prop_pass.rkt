@@ -13,7 +13,7 @@ sig Scene {
     propPos : set Prop -> Position
 }
 
-// a predicate to ensure that if a given is on stage
+// a predicate to ensure that if a given Actor is on stage
 // for a scene, then their position during that scene is Center
 pred onStageImpliesCenter {
     // TODO: this pred could take a Scene as a pred, or could have a helper
