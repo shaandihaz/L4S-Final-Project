@@ -15,16 +15,9 @@ sig Scene {
 
 // a predicate to ensure that if an Actor or prop is on stage
 // for a scene, then their position during that scene is Center
-pred onStageImpliesCenter {
-    all s : Scene | {s.actors in (s.actorPos).Center
-    s.props in (s.propPos).Center}
-}
-
-// a predicate to ensure that if an Actor or prop is off stage
-// for a scene, then their position during that scene is not Center
-pred offStageNotCenter {
-    all s : Scene | {Prop - s.props not in (s.propPos).Center
-    Actor - s.actors not in (s.actorPos).Center}
+pred onStageExactlyCenter {
+    all s : Scene | {s.actors = (s.actorPos).Center
+    s.props = (s.propPos).Center}
 }
 
 -- ensure every actor/prop is given a position in every scene
@@ -34,9 +27,8 @@ pred allAccountedFor{
 }
 
 pred positions{
-     onStageImpliesCenter
-     offStageNotCenter
-     allAccountedFor
+    onStageExactlyCenter
+    allAccountedFor
 }                 
 
 
@@ -79,25 +71,33 @@ sig Event {
     post: one Scene
 }
 
--- ensures all prop assignments are functional
+-- ensures all prop assignments are functional and injective
 pred functionalAssignments{
     all e: Event |  {(~(e.carryOnAsignments)).(e.carryOnAsignments) in iden
-    (~(e.carryOffAsignments)).(e.carryOffAsignments) in iden}
+    ((e.carryOnAsignments)).~(e.carryOnAsignments) in iden
+    (~(e.carryOffAsignments)).(e.carryOffAsignments) in iden
+    ((e.carryOffAsignments)).~(e.carryOffAsignments) in iden}
 }
-
 
 // a transition to constrain Scene Changes.
 transition[Scene] sceneChange[e: Event] {
     e.pre = this
     e.post = this'
-    -- the carry on props are exactly those in the following scene that
-    -- weren't in the previous scene
-    (e.carryOnAsignments).Prop = props' - props
-    -- the carry on actors must be in the following scene but not the previous
-    Actor.(e.carryOnAsignments) in actors'  - actors
-    -- the opposite for the carry off props
-    (e.carryOffAsignments).Prop = props - props'
-    Actor.(e.carryOffAsignments) in actors - actors
+    -- the new props are the old ones, minus the ones that were carried off,
+    -- plus the ones that were carried on
+    props' = props - Actor.(e.carryOffAsignments) + Actor.(e.carryOnAsignments)
+    
+    -- the new actors must include the ones that were on before minus those who
+    --carried props off plus those who carried props on
+    actors' in actors - (e.carryOffAsignments).Prop + (e.carryOnAsignments).Prop
+    
+    -- carry on pairs the actors and props that were offstage but will be on
+    (e.carryOnAsignments).Prop in (actors' - actors)
+    Actor.(e.carryOnAsignments) in (props' - props)
+    
+     -- carry off pairs the actors and props that were onstage but will be off
+    (e.carryOffAsignments).Prop in (actors - actors')
+    Actor.(e.carryOffAsignments) in (props - props')
 }
 
 state[Scene] initState{
@@ -129,4 +129,4 @@ pred toRun{
 
 trace<|Scene, initState, model, finalState|> traces: linear {}
 
-run<|traces|> toRun for exactly 10 Scene, exactly 10 Actor, exactly 1 Prop, 11 Event, 3 Position
+run<|traces|> toRun for exactly 5 Scene, exactly 3 Actor, exactly 5 Prop, 4 Event, 3 Position
