@@ -27,8 +27,7 @@ pred allAccountedFor{
         (s.propPos).Position = Prop
         (~(s.actorPos)).(s.actorPos) in iden
         (~(s.propPos)).(s.propPos) in iden
-    }
-        
+    }       
     //(~(s.actorPos)).(s.actorPos) in iden and  (~(s.propPos)).(s.propPos) in iden
 }
 
@@ -105,9 +104,12 @@ transition[Scene] sceneChange[e: Event] {
     (e.carryOffAsignments).Prop in (actors - actors')
     Actor.(e.carryOffAsignments) = (props - props')
     
-    -- TODO: make sure props/actors are being carried to/from the proper sides
+    -- Ensures that if a given prop/actor pair is assigned, the actor's and prop's source and target positions are the same
+    all p : Prop | all a : Actor {
+        (p->a in e.carryOffAsignments) or (p->a in e.carryOnAsignments) => a.actorPos' = p.propPos' and a.actorPos = p.propPos
+    }
     
-    -- ensures that no actors move from LEFT TO RIGHT and vice versa
+    -- ensures that no actors move from LEFT to RIGHT and vice versa
     no actorPos.Left & actorPos'.Right
     no actorPos.Right & actorPos'.Left
 }
