@@ -16,9 +16,29 @@ sig Scene {
 // a predicate to ensure that if an Actor or prop is on stage
 // for a scene, then their position during that scene is Center
 pred onStageImpliesCenter {
-    all s : Scene | {s.actors in s.actorPos.Center
-    s.props in s.propPos.Center}
+    all s : Scene | {s.actors in (s.actorPos).Center
+    s.props in (s.propPos).Center}
 }
+
+// a predicate to ensure that if an Actor or prop is off stage
+// for a scene, then their position during that scene is not Center
+pred offStageNotCenter {
+    all s : Scene | {Prop - s.props not in (s.propPos).Center
+    Actor - s.actors not in (s.actorPos).Center}
+}
+
+-- ensure every actor/prop is given a position in every scene
+pred allAccountedFor{
+    all s : Scene | {(s.actorPos).Position = Actor
+    (s.propPos).Position = Prop}
+}
+
+pred positions{
+     onStageImpliesCenter
+     offStageNotCenter
+     allAccountedFor
+}                 
+
 
 // a sig to represent an Actor.
 sig Actor {
@@ -95,19 +115,13 @@ transition[Scene] model {
 }
 
 pred interestingModel{
-    -- ensure there are props and actors in every scene
-    all s: Scene |
-        ((some e : Event | e.pre = s) and (some e : Event | e.post = s))
-        implies
-        {some s.props
-        some s.actors}
     -- ensure there are some changes
     some carryOnAsignments
     some carryOffAsignments
 }
 
 pred toRun{
-    onStageImpliesCenter
+    positions
     abstractPosition
     functionalAssignments
     interestingModel
