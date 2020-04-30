@@ -22,8 +22,14 @@ pred onStageExactlyCenter {
 
 -- ensure every actor/prop is given a position in every scene
 pred allAccountedFor{
-    all s : Scene | {(s.actorPos).Position = Actor
-    (s.propPos).Position = Prop}
+    all s : Scene | {
+        (s.actorPos).Position = Actor
+        (s.propPos).Position = Prop
+        (~(s.actorPos)).(s.actorPos) in iden
+        (~(s.propPos)).(s.propPos) in iden
+    }
+        
+    //(~(s.actorPos)).(s.actorPos) in iden and  (~(s.propPos)).(s.propPos) in iden
 }
 
 pred positions{
@@ -100,14 +106,22 @@ transition[Scene] sceneChange[e: Event] {
     Actor.(e.carryOffAsignments) = (props - props')
     
     -- TODO: make sure props/actors are being carried to/from the proper sides
+    
+    -- ensures that no actors move from LEFT TO RIGHT and vice versa
+    no actorPos.Left & actorPos'.Right
+    no actorPos.Right & actorPos'.Left
 }
 
 state[Scene] initState{
     -- constraints for the first state
+    no actors
+    no props
 }
 
 state[Scene] finalState {
     -- constraints for the last state that should hold for a valid solution
+    no actors
+    no props
 }
 
 transition[Scene] model {
@@ -129,4 +143,4 @@ pred toRun{
 
 trace<|Scene, initState, model, finalState|> traces: linear {}
 
-run<|traces|> toRun for exactly 5 Scene, exactly 3 Actor, exactly 5 Prop, 4 Event, 3 Position
+run<|traces|> toRun for exactly 3 Scene, exactly 2 Actor, exactly 1 Prop, exactly 2 Event, exactly 3 Position
