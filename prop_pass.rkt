@@ -101,6 +101,9 @@ pred interestingModel{
         implies
         {some s.props
         some s.actors}
+    -- ensure there are some changes
+    some carryOnAsignments
+    some carryOffAsignments
 }
 
 pred toRun{
@@ -112,4 +115,4 @@ pred toRun{
 
 trace<|Scene, initState, model, finalState|> traces: linear {}
 
-run<|traces|> toRun for exactly 10 Scene, exactly 3 Actor, exactly 3 Prop, 11 Event, 3 Position
+run<|traces|> toRun for exactly 10 Scene, exactly 10 Actor, exactly 1 Prop, 11 Event, 3 Position
