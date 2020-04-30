@@ -13,11 +13,11 @@ sig Scene {
     propPos : set Prop -> Position
 }
 
-// a predicate to ensure that if a given Actor is on stage
+// a predicate to ensure that if an Actor or prop is on stage
 // for a scene, then their position during that scene is Center
 pred onStageImpliesCenter {
-    // TODO: this pred could take a Scene as a pred, or could have a helper
-    // that takes a scene as a pred (so there would be a forall kind of thing going on here)
+    all s : Scene | {s.actors in s.actorPos.Center
+    s.props in s.propPos.Center}
 }
 
 // a sig to represent an Actor.
@@ -49,23 +49,39 @@ pred abstractPosition {
 
 // a sig to represent an Event, which is a Scene Transition.
 sig Event {
-    // the set of Actor/Prop assignments
-    assignments : set Actor -> Prop,
+    // the set of Actor/Prop assignments to be carried on
+    carryOnAsignments : set Actor -> Prop,
+    // the set of Actor/Prop assignments to be carried off
+    carryOffAsignments : set Actor -> Prop,
     // the Scene before this transition
-    pre: one State,
+    pre: one Scene,
     // the Scene after this transition
-    post: one State
+    post: one Scene
 }
 
 // a transition to constrain Scene Changes.
 transition[Scene] sceneChange[e: Event] {
+    e.pre = this
+    e.post = this'
+    -- the carry on props are exactly those in the following scene that
+    -- weren't in the previous scene
+    e.carryOnAsignments.Prop = props' - props
+    -- the carry on actors must be in the following scene but not the previous
+    Actor.(e.carryOnAsignments) in actors'  - actors
+    -- the opposite for the carry off props
+    carryOffAsignments = props - props'
+    Actor.(e.carryOffAsignments) in actors - actors
+    -- ensure mappings are functional
+    ~carryOnAsignments.carryOnAsignments in Actor
+    ~carryOffAsignments.carryOffAsignments in Actor
 }
 
-// a constraint for the initial Scene/State of the Trace.
-state[Scene] initScene {
+
+pred toRun{
+    onStageImpliesCenter
+    abstractPosition
 }
 
-// a constraint for the final Scene/State of the Trace.
-state[Scene] finalScene {
-}
+trace<|Scene|> traces: linear {}
 
+run<|traces|> toRun for exactly 10 Scene, 20 Prop, 11 Event, 3 Position
