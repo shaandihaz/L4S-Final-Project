@@ -59,6 +59,12 @@ sig Event {
     post: one Scene
 }
 
+-- ensures all prop assignments are functional
+pred functionalAssignments{
+    all e: Event |  {(~(e.carryOnAsignments)).(e.carryOnAsignments) in iden
+    (~(e.carryOffAsignments)).(e.carryOffAsignments) in iden}
+}
+
 
 // a transition to constrain Scene Changes.
 transition[Scene] sceneChange[e: Event] {
@@ -66,38 +72,44 @@ transition[Scene] sceneChange[e: Event] {
     e.post = this'
     -- the carry on props are exactly those in the following scene that
     -- weren't in the previous scene
-    e.carryOnAsignments.Prop = props' - props
+    (e.carryOnAsignments).Prop = props' - props
     -- the carry on actors must be in the following scene but not the previous
     Actor.(e.carryOnAsignments) in actors'  - actors
     -- the opposite for the carry off props
-    e.carryOffAsignments.Prop = props - props'
+    (e.carryOffAsignments).Prop = props - props'
     Actor.(e.carryOffAsignments) in actors - actors
-    -- ensure mappings are functional
-   (~(e.carryOnAsignments)).(e.carryOnAsignments) in iden
-    (~(e.carryOffAsignments)).(e.carryOffAsignments) in iden
 }
 
-state[Scene] initState {
+state[Scene] initState{
     -- constraints for the first state
-    no props
-    no actors
+
 }
 
 state[Scene] finalState {
     -- constraints for the last state that should hold for a valid solution
-    no props
-    no actors
+
 }
 
 transition[Scene] model {
     some e: Event | sceneChange[this, this', e]
 }
 
+pred interestingModel{
+    -- ensure there are props and actors in every scene
+    all s: Scene |
+        ((some e : Event | e.pre = s) and (some e : Event | e.post = s))
+        implies
+        {some s.props
+        some s.actors}
+}
+
 pred toRun{
     onStageImpliesCenter
     abstractPosition
+    functionalAssignments
+    interestingModel
 }
 
 trace<|Scene, initState, model, finalState|> traces: linear {}
 
-run<|traces|> toRun for exactly 10 Scene, 3 Actor, 8 Prop, 11 Event, 3 Position
+run<|traces|> toRun for exactly 10 Scene, exactly 3 Actor, exactly 3 Prop, 11 Event, 3 Position
