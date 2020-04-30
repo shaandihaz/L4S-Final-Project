@@ -88,8 +88,8 @@ transition[Scene] sceneChange[e: Event] {
     props' = props - Actor.(e.carryOffAsignments) + Actor.(e.carryOnAsignments)
     
     -- the new actors must include the ones that were on before minus those who
-    --carried props off plus those who carried props on
-    actors' in actors - (e.carryOffAsignments).Prop + (e.carryOnAsignments).Prop
+    -- carried props off plus those who carried props on
+    actors - (e.carryOffAsignments).Prop + (e.carryOnAsignments).Prop in actors'
     
     -- carry on pairs the actors and props that were offstage but will be on
     (e.carryOnAsignments).Prop in (actors' - actors)
@@ -98,16 +98,16 @@ transition[Scene] sceneChange[e: Event] {
      -- carry off pairs the actors and props that were onstage but will be off
     (e.carryOffAsignments).Prop in (actors - actors')
     Actor.(e.carryOffAsignments) in (props - props')
+    
+    -- TODO: make sure props/actors are being carried to/from the proper sides
 }
 
 state[Scene] initState{
     -- constraints for the first state
-
 }
 
 state[Scene] finalState {
     -- constraints for the last state that should hold for a valid solution
-
 }
 
 transition[Scene] model {
