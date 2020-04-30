@@ -59,6 +59,7 @@ sig Event {
     post: one Scene
 }
 
+
 // a transition to constrain Scene Changes.
 transition[Scene] sceneChange[e: Event] {
     e.pre = this
@@ -69,19 +70,34 @@ transition[Scene] sceneChange[e: Event] {
     -- the carry on actors must be in the following scene but not the previous
     Actor.(e.carryOnAsignments) in actors'  - actors
     -- the opposite for the carry off props
-    carryOffAsignments = props - props'
+    e.carryOffAsignments.Prop = props - props'
     Actor.(e.carryOffAsignments) in actors - actors
     -- ensure mappings are functional
-    ~carryOnAsignments.carryOnAsignments in Actor
-    ~carryOffAsignments.carryOffAsignments in Actor
+   (~(e.carryOnAsignments)).(e.carryOnAsignments) in iden
+    (~(e.carryOffAsignments)).(e.carryOffAsignments) in iden
 }
 
+state[Scene] initState {
+    -- constraints for the first state
+    no props
+    no actors
+}
+
+state[Scene] finalState {
+    -- constraints for the last state that should hold for a valid solution
+    no props
+    no actors
+}
+
+transition[Scene] model {
+    some e: Event | sceneChange[this, this', e]
+}
 
 pred toRun{
     onStageImpliesCenter
     abstractPosition
 }
 
-trace<|Scene|> traces: linear {}
+trace<|Scene, initState, model, finalState|> traces: linear {}
 
-run<|traces|> toRun for exactly 10 Scene, 20 Prop, 11 Event, 3 Position
+run<|traces|> toRun for exactly 10 Scene, 3 Actor, 8 Prop, 11 Event, 3 Position
