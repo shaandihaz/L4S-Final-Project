@@ -93,11 +93,11 @@ transition[Scene] sceneChange[e: Event] {
     
     -- carry on pairs the actors and props that were offstage but will be on
     (e.carryOnAsignments).Prop in (actors' - actors)
-    Actor.(e.carryOnAsignments) in (props' - props)
+    Actor.(e.carryOnAsignments) = (props' - props)
     
      -- carry off pairs the actors and props that were onstage but will be off
     (e.carryOffAsignments).Prop in (actors - actors')
-    Actor.(e.carryOffAsignments) in (props - props')
+    Actor.(e.carryOffAsignments) = (props - props')
     
     -- TODO: make sure props/actors are being carried to/from the proper sides
 }
