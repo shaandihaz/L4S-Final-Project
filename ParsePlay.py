@@ -23,6 +23,9 @@ def exampleParsing1(inst):
 	# maps scene to actor,prop
 	actorMap = {}
 	propMap = {}
+	# maps scene to a map from psoition to list of actor/prop
+	actorPosMap = {}
+	propPosMap = {}
 
 	for s in inst['sig']:
 
@@ -90,10 +93,31 @@ def exampleParsing1(inst):
 				else:
 					actorMap[atoms[0]['@label']] = [atoms[1]['@label']]
 
+		if f['@label'] == "actorPos":
+			for d in f['tuple']:
+				atoms = d['atom']
+				if atoms[0]['@label'] not in actorPosMap:
+					actorPosMap[atoms[0]['@label']] = {"Left0": [], "Right0": [], "Center0": []}
+				actorPosMap[atoms[0]['@label']][atoms[2]['@label']].append(atoms[1]['@label'])
+			print(actorPosMap)
+
+		if f['@label'] == "propPos":
+			for d in f['tuple']:
+				atoms = d['atom']
+				if atoms[0]['@label'] not in propPosMap:
+					propPosMap[atoms[0]['@label']] = {"Left0": [], "Right0": [], "Center0": []}
+				propPosMap[atoms[0]['@label']][atoms[2]['@label']].append(atoms[1]['@label'])
+
+
 	s = init
 	sceneCount = 0
 	while True:
 		print("Scene " + str(sceneCount))
+		if s in postMap:
+			precedingEvent = postMap[s]
+			if precedingEvent in carryOn:
+				for t in carryOn[precedingEvent]:
+					print(t[0] + " carried on " + t[1])
 		if s in actorMap:
 			print("Actors in scene:", end=" ")
 			for actor in actorMap[s]:
@@ -104,11 +128,24 @@ def exampleParsing1(inst):
 			for prop in propMap[s]:
 				print(prop, end=" ")
 			print("")
-		if s in postMap:
-			precedingEvent = postMap[s]
-			if precedingEvent in carryOn:
-				for t in carryOn[precedingEvent]:
-					print(t[0] + " will carry on " + t[1])
+		if s in actorPosMap:
+			print("Actors stage left:", end=" ")
+			for actor in actorPosMap[s]["Left0"]:
+				print(actor, end=" ")
+			print("")
+			print("Actors stage right:", end=" ")
+			for actor in actorPosMap[s]["Right0"]:
+				print(actor, end=" ")
+			print("")
+		if s in propPosMap:
+			print("Props stage left:", end=" ")
+			for prop in propPosMap[s]["Left0"]:
+				print(prop, end=" ")
+			print("")
+			print("Props stage right:", end=" ")
+			for prop in propPosMap[s]["Right0"]:
+				print(prop, end=" ")
+			print("")
 		if s in preMap:
 			followingEvent = preMap[s]
 			if followingEvent in carryOff:
