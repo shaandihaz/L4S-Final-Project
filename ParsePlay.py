@@ -3,51 +3,6 @@ import sys
 from typing import List
 import xmltodict
 
-def exampleParsing(inst):
-	for s in inst['sig']:
-		if s['@label'] == 'Actor':
-			count = 0
-			for a in s['atom']:
-				count += 1
-			print("There are " + str(count) + " actors")
-
-		if s['@label'] == 'Prop':
-			count = 0
-			for a in s['atom']:
-				count += 1
-			print("There are " + str(count) + " props")
-
-		if s['@label'] == 'Scene':
-			count = 0
-			for a in s['atom']:
-				count += 1
-			print("There are " + str(count) + " scenes")
-
-	for f in inst['field']:
-		if f['@label'] == 'pre':
-			for d in f['tuple']:
-				atoms = d['atom']
-				# this is printing the pre field, in order of event -> scene
-				print(str(atoms[0]['@label']) + " comes after " + str(atoms[1]['@label']))
-
-		if f['@label'] == 'post':
-			for d in f['tuple']:
-				atoms = d['atom']
-				# this is printing the post field, in order of event -> scene
-				print(str(atoms[0]['@label']) + " comes before " + str(atoms[1]['@label']))
-
-		if f['@label'] == "carryOnAsignments":
-			for d in f['tuple']:
-				atoms = d['atom']
-				# this is printing the carry on assignments, in order of event -> actor -> prop
-				print("During " + str(atoms[0]['@label']) + ", " + str(atoms[1]['@label']) + " will carry on " + str(atoms[2]['@label']))
-
-		if f['@label'] == "carryOffAsignments":
-			for d in f['tuple']:
-				atoms = d['atom']
-				# this is printing the carry off assignments, in order of event -> actor -> prop
-				print("During " + str(atoms[0]['@label']) + ", " + str(atoms[1]['@label']) + " will carry off " + str(atoms[2]['@label']))
-
 def exampleParsing1(inst):
 	numActors = 0
 	numProps = 0
@@ -56,12 +11,18 @@ def exampleParsing1(inst):
 	# maps scene to event
 	preMap = {}
 	postMap = {}
+	# maps event to scene
+	preMapRev = {}
+	postMapRev = {}
 	# maps event to actor,prop
 	carryOn = {}
 	carryOff = {}
-
+	# these are scenes
 	init = None
 	term = None
+	# maps scene to actor,prop
+	actorMap = {}
+	propMap = {}
 
 	for s in inst['sig']:
 
@@ -79,15 +40,23 @@ def exampleParsing1(inst):
 				numScenes += 1
 
 	for f in inst['field']:
+		if f['@label'] == 'init':
+			init = f['tuple']['atom'][1]['@label']
+
+		if f['@label'] == 'term':
+			term = f['tuple']['atom'][1]['@label']
+
 		if f['@label'] == 'pre':
 			for d in f['tuple']:
 				atoms = d['atom']
 				preMap[atoms[1]['@label']] = atoms[0]['@label']
+				preMapRev[atoms[0]['@label']] = atoms[1]['@label']
 
 		if f['@label'] == 'post':
 			for d in f['tuple']:
 				atoms = d['atom']
 				postMap[atoms[1]['@label']] = atoms[0]['@label']
+				postMapRev[atoms[0]['@label']] = atoms[1]['@label']
 
 		if f['@label'] == "carryOnAsignments":
 			for d in f['tuple']:
@@ -105,17 +74,53 @@ def exampleParsing1(inst):
 				else:
 					carryOff[atoms[0]['@label']] = [[atoms[1]['@label'], atoms[2]['@label']]]
 
-		
-	for s in sceneList:
-		print(s)
+		if f['@label'] == 'props':
+			for d in f['tuple']:
+				atoms = d['atom']
+				if atoms[0]['@label'] in propMap:
+					propMap[atoms[0]['@label']].append(atoms[1]['@label'])
+				else:
+					propMap[atoms[0]['@label']] = [atoms[1]['@label']]
+
+		if f['@label'] == 'actors':
+			for d in f['tuple']:
+				atoms = d['atom']
+				if atoms[0]['@label'] in actorMap:
+					actorMap[atoms[0]['@label']].append(atoms[1]['@label'])
+				else:
+					actorMap[atoms[0]['@label']] = [atoms[1]['@label']]
+
+	s = init
+	sceneCount = 0
+	while True:
+		print("Scene " + str(sceneCount))
+		if s in actorMap:
+			print("Actors in scene:", end=" ")
+			for actor in actorMap[s]:
+				print(actor, end=" ")
+			print("")
+		if s in propMap:
+			print("Props in scene:", end=" ")
+			for prop in propMap[s]:
+				print(prop, end=" ")
+			print("")
 		if s in postMap:
 			precedingEvent = postMap[s]
-			for t in carryOn[precedingEvent]:
-				print(t[0] + " will carry on " + t[1])
+			if precedingEvent in carryOn:
+				for t in carryOn[precedingEvent]:
+					print(t[0] + " will carry on " + t[1])
 		if s in preMap:
 			followingEvent = preMap[s]
-			for t in carryOff[followingEvent]:
-				print(t[0] + " will carry off " + t[1])
+			if followingEvent in carryOff:
+				for t in carryOff[followingEvent]:
+					print(t[0] + " will carry off " + t[1])
+		if s == term:
+			break
+		nextEvent = preMap[s]
+		s = postMapRev[nextEvent]
+		sceneCount += 1
+		print("")
+
 
 
 if __name__ == "__main__":

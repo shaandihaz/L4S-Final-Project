@@ -1,4 +1,4 @@
-<alloy builddate="Saturday, May 2nd, 2020">
+ <alloy builddate="Saturday, May 2nd, 2020">
 <instance bitwidth="4" maxseq="-1" command="prop_pass.rkt:157:1" filename="/Users/lilymayo/LFS/L4S-Final-Project/prop_pass.rkt" version="0.4.0">
 
 <sig label="seq/Int" ID="0" parentID="1" builtin="yes">
@@ -31,7 +31,7 @@
 </sig>
 
 <sig label="Event" ID="8" parentID="2">
-<atom label="Event2"/><atom label="Event1"/><atom label="Event0"/>
+<atom label="Event2"/><atom label="Event1"/><atom label="Event0"/><atom label="Event3"/>
 </sig>
 
 <sig label="Scene" ID="9" parentID="2">
@@ -55,13 +55,8 @@
 </sig>
 
 <field label="tran" ID="14" parentID="12">
-<tuple><atom label="traces0"/><atom label="Scene3"/><atom label="Scene3"/></tuple>
-<tuple><atom label="traces0"/><atom label="Scene3"/><atom label="Scene0"/></tuple>
 <tuple><atom label="traces0"/><atom label="Scene3"/><atom label="Scene2"/></tuple>
-<tuple><atom label="traces0"/><atom label="Scene1"/><atom label="Scene1"/></tuple>
 <tuple><atom label="traces0"/><atom label="Scene1"/><atom label="Scene0"/></tuple>
-<tuple><atom label="traces0"/><atom label="Scene1"/><atom label="Scene2"/></tuple>
-<tuple><atom label="traces0"/><atom label="Scene0"/><atom label="Scene3"/></tuple>
 <tuple><atom label="traces0"/><atom label="Scene2"/><atom label="Scene1"/></tuple>
 <types><type ID="12"/><type ID="9"/><type ID="9"/></types>
 
@@ -71,25 +66,24 @@
 <tuple><atom label="Event2"/><atom label="Scene2"/></tuple>
 <tuple><atom label="Event1"/><atom label="Scene2"/></tuple>
 <tuple><atom label="Event0"/><atom label="Scene1"/></tuple>
+<tuple><atom label="Event3"/><atom label="Scene3"/></tuple>
 <types><type ID="8"/><type ID="9"/></types>
 
 </field>
 
 <field label="carryOnAsignments" ID="16" parentID="8">
-<tuple><atom label="Event2"/><atom label="Actor0"/><atom label="Prop0"/></tuple>
-<tuple><atom label="Event2"/><atom label="Actor1"/><atom label="Prop1"/></tuple>
-<tuple><atom label="Event1"/><atom label="Actor0"/><atom label="Prop1"/></tuple>
-<tuple><atom label="Event1"/><atom label="Actor1"/><atom label="Prop0"/></tuple>
-<tuple><atom label="Event0"/><atom label="Actor0"/><atom label="Prop0"/></tuple>
-<tuple><atom label="Event0"/><atom label="Actor1"/><atom label="Prop1"/></tuple>
+<tuple><atom label="Event2"/><atom label="Actor0"/><atom label="Prop1"/></tuple>
+<tuple><atom label="Event3"/><atom label="Actor0"/><atom label="Prop0"/></tuple>
+<tuple><atom label="Event3"/><atom label="Actor1"/><atom label="Prop1"/></tuple>
 <types><type ID="8"/><type ID="4"/><type ID="10"/></types>
 
 </field>
 
 <field label="post" ID="17" parentID="8">
 <tuple><atom label="Event2"/><atom label="Scene2"/></tuple>
-<tuple><atom label="Event1"/><atom label="Scene2"/></tuple>
+<tuple><atom label="Event1"/><atom label="Scene1"/></tuple>
 <tuple><atom label="Event0"/><atom label="Scene0"/></tuple>
+<tuple><atom label="Event3"/><atom label="Scene2"/></tuple>
 <types><type ID="8"/><type ID="9"/></types>
 
 </field>
@@ -99,10 +93,10 @@
 <tuple><atom label="Scene3"/><atom label="Actor1"/><atom label="Right0"/></tuple>
 <tuple><atom label="Scene1"/><atom label="Actor0"/><atom label="Center0"/></tuple>
 <tuple><atom label="Scene1"/><atom label="Actor1"/><atom label="Center0"/></tuple>
-<tuple><atom label="Scene0"/><atom label="Actor0"/><atom label="Center0"/></tuple>
-<tuple><atom label="Scene0"/><atom label="Actor1"/><atom label="Center0"/></tuple>
-<tuple><atom label="Scene2"/><atom label="Actor0"/><atom label="Left0"/></tuple>
-<tuple><atom label="Scene2"/><atom label="Actor1"/><atom label="Left0"/></tuple>
+<tuple><atom label="Scene0"/><atom label="Actor0"/><atom label="Right0"/></tuple>
+<tuple><atom label="Scene0"/><atom label="Actor1"/><atom label="Left0"/></tuple>
+<tuple><atom label="Scene2"/><atom label="Actor0"/><atom label="Center0"/></tuple>
+<tuple><atom label="Scene2"/><atom label="Actor1"/><atom label="Center0"/></tuple>
 <types><type ID="9"/><type ID="4"/><type ID="5"/></types>
 
 </field>
@@ -110,44 +104,42 @@
 <field label="carryOffAsignments" ID="19" parentID="8">
 <tuple><atom label="Event2"/><atom label="Actor0"/><atom label="Prop0"/></tuple>
 <tuple><atom label="Event2"/><atom label="Actor1"/><atom label="Prop1"/></tuple>
-<tuple><atom label="Event1"/><atom label="Actor0"/><atom label="Prop1"/></tuple>
-<tuple><atom label="Event1"/><atom label="Actor1"/><atom label="Prop0"/></tuple>
-<tuple><atom label="Event0"/><atom label="Actor0"/><atom label="Prop0"/></tuple>
-<tuple><atom label="Event0"/><atom label="Actor1"/><atom label="Prop1"/></tuple>
+<tuple><atom label="Event0"/><atom label="Actor0"/><atom label="Prop1"/></tuple>
+<tuple><atom label="Event0"/><atom label="Actor1"/><atom label="Prop0"/></tuple>
 <types><type ID="8"/><type ID="4"/><type ID="10"/></types>
 
 </field>
 
 <field label="props" ID="20" parentID="9">
 <tuple><atom label="Scene1"/><atom label="Prop1"/></tuple>
-<tuple><atom label="Scene0"/><atom label="Prop1"/></tuple>
+<tuple><atom label="Scene1"/><atom label="Prop0"/></tuple>
+<tuple><atom label="Scene2"/><atom label="Prop1"/></tuple>
+<tuple><atom label="Scene2"/><atom label="Prop0"/></tuple>
 <types><type ID="9"/><type ID="10"/></types>
 
 </field>
 
 <field label="term" ID="21" parentID="12">
 <tuple><atom label="traces0"/><atom label="Scene0"/></tuple>
-<tuple><atom label="traces0"/><atom label="Scene2"/></tuple>
 <types><type ID="12"/><type ID="9"/></types>
 
 </field>
 
 <field label="init" ID="22" parentID="12">
 <tuple><atom label="traces0"/><atom label="Scene3"/></tuple>
-<tuple><atom label="traces0"/><atom label="Scene1"/></tuple>
 <types><type ID="12"/><type ID="9"/></types>
 
 </field>
 
 <field label="propPos" ID="23" parentID="9">
 <tuple><atom label="Scene3"/><atom label="Prop1"/><atom label="Left0"/></tuple>
-<tuple><atom label="Scene3"/><atom label="Prop0"/><atom label="Left0"/></tuple>
+<tuple><atom label="Scene3"/><atom label="Prop0"/><atom label="Right0"/></tuple>
 <tuple><atom label="Scene1"/><atom label="Prop1"/><atom label="Center0"/></tuple>
-<tuple><atom label="Scene1"/><atom label="Prop0"/><atom label="Left0"/></tuple>
-<tuple><atom label="Scene0"/><atom label="Prop1"/><atom label="Center0"/></tuple>
-<tuple><atom label="Scene0"/><atom label="Prop0"/><atom label="Left0"/></tuple>
-<tuple><atom label="Scene2"/><atom label="Prop1"/><atom label="Left0"/></tuple>
-<tuple><atom label="Scene2"/><atom label="Prop0"/><atom label="Left0"/></tuple>
+<tuple><atom label="Scene1"/><atom label="Prop0"/><atom label="Center0"/></tuple>
+<tuple><atom label="Scene0"/><atom label="Prop1"/><atom label="Left0"/></tuple>
+<tuple><atom label="Scene0"/><atom label="Prop0"/><atom label="Right0"/></tuple>
+<tuple><atom label="Scene2"/><atom label="Prop1"/><atom label="Center0"/></tuple>
+<tuple><atom label="Scene2"/><atom label="Prop0"/><atom label="Center0"/></tuple>
 <types><type ID="9"/><type ID="10"/><type ID="5"/></types>
 
 </field>
@@ -155,8 +147,8 @@
 <field label="actors" ID="24" parentID="9">
 <tuple><atom label="Scene1"/><atom label="Actor0"/></tuple>
 <tuple><atom label="Scene1"/><atom label="Actor1"/></tuple>
-<tuple><atom label="Scene0"/><atom label="Actor0"/></tuple>
-<tuple><atom label="Scene0"/><atom label="Actor1"/></tuple>
+<tuple><atom label="Scene2"/><atom label="Actor0"/></tuple>
+<tuple><atom label="Scene2"/><atom label="Actor1"/></tuple>
 <types><type ID="9"/><type ID="4"/></types>
 
 </field>
@@ -314,12 +306,13 @@ trace&amp;lt;|Scene, initState, model, finalState|&amp;gt; traces: linear {}
 
 inst tester { 
     Scene = Scene0 + Scene1 + Scene2 + Scene3
-    Event = Event0 + Event1 + Event2
+    Event = Event0 + Event1 + Event2 + Event3
     Actor = Actor0 + Actor1
     Prop = Prop0 + Prop1
-    actors = Scene0-&amp;gt;Actor0 + Scene0-&amp;gt;Actor1 + Scene1-&amp;gt;Actor1 + Scene1-&amp;gt;Actor0
-    props = Scene0-&amp;gt;Prop1 + Scene1-&amp;gt;Prop1
+    actors = Scene1-&amp;gt;Actor0 + Scene1-&amp;gt;Actor1 + Scene2-&amp;gt;Actor0 + Scene2-&amp;gt;Actor1
+    props = Scene1-&amp;gt;Prop0 + Scene1-&amp;gt;Prop1 + Scene2-&amp;gt;Prop0 + Scene2-&amp;gt;Prop1
 }
-run {toRun} for tester
+
+run&amp;lt;|traces|&amp;gt; toRun for tester
 "></source>
 </alloy>
