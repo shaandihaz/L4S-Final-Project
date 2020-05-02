@@ -38,8 +38,7 @@ if __name__ == "__main__":
 		output += " + Prop" + str(x + 1)
 	output += "\n"  + tab
 
-	print(output)
-
+# get scene info
 	actorMap = {}
 	propMap = {}
 	for x in range(numScene):
