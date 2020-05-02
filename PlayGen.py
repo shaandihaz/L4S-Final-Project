@@ -18,7 +18,7 @@ if __name__ == "__main__":
 
 # specify events
 	output += "Event = Event0"
-	for x in range(numScene):
+	for x in range(numScene + 1):
 		output += " + Event" + str(x + 1)
 	output += "\n" + tab
 
@@ -56,7 +56,7 @@ if __name__ == "__main__":
 	output += "actors = "
 	for x in range(numScene):
 		for a in actorMap[x]:
-			output += "Scene" + str(x) + "->" + "Actor" + a + " + "
+			output += "Scene" + str(x + 1) + "->" + "Actor" + a + " + "
 
 	output = output[:-3]
 	output += "\n"  + tab
@@ -65,7 +65,7 @@ if __name__ == "__main__":
 	output += "props = "
 	for x in range(numScene):
 		for a in propMap[x]:
-			output += "Scene" + str(x) + "->" + "Prop" + a + " + "
+			output += "Scene" + str(x + 1) + "->" + "Prop" + a + " + "
 	
 	output = output[:-3]
 	output += "\n}"

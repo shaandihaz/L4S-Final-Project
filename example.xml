@@ -1,0 +1,325 @@
+<alloy builddate="Saturday, May 2nd, 2020">
+<instance bitwidth="4" maxseq="-1" command="prop_pass.rkt:157:1" filename="/Users/lilymayo/LFS/L4S-Final-Project/prop_pass.rkt" version="0.4.0">
+
+<sig label="seq/Int" ID="0" parentID="1" builtin="yes">
+</sig>
+
+<sig label="Int" ID="1" parentID="2" builtin="yes">
+</sig>
+
+<sig label="univ" ID="2" builtin="yes">
+</sig>
+
+<field label="no-field-guard" ID="3" parentID="2">
+<types> <type ID="2"/><type ID="2"/> </types>
+</field>
+
+<sig label="Actor" ID="4" parentID="2">
+<atom label="Actor0"/><atom label="Actor1"/>
+</sig>
+
+<sig label="Position" ID="5" parentID="2">
+
+</sig>
+
+<sig label="Right" ID="6" parentID="5">
+<atom label="Right0"/>
+</sig>
+
+<sig label="Left" ID="7" parentID="5">
+<atom label="Left0"/>
+</sig>
+
+<sig label="Event" ID="8" parentID="2">
+<atom label="Event2"/><atom label="Event1"/><atom label="Event0"/>
+</sig>
+
+<sig label="Scene" ID="9" parentID="2">
+<atom label="Scene3"/><atom label="Scene1"/><atom label="Scene0"/><atom label="Scene2"/>
+</sig>
+
+<sig label="Prop" ID="10" parentID="2">
+<atom label="Prop1"/><atom label="Prop0"/>
+</sig>
+
+<sig label="Center" ID="11" parentID="5">
+<atom label="Center0"/>
+</sig>
+
+<sig label="TraceBase" ID="12" parentID="2">
+
+</sig>
+
+<sig label="traces" ID="13" parentID="12">
+<atom label="traces0"/>
+</sig>
+
+<field label="tran" ID="14" parentID="12">
+<tuple><atom label="traces0"/><atom label="Scene3"/><atom label="Scene3"/></tuple>
+<tuple><atom label="traces0"/><atom label="Scene3"/><atom label="Scene0"/></tuple>
+<tuple><atom label="traces0"/><atom label="Scene3"/><atom label="Scene2"/></tuple>
+<tuple><atom label="traces0"/><atom label="Scene1"/><atom label="Scene1"/></tuple>
+<tuple><atom label="traces0"/><atom label="Scene1"/><atom label="Scene0"/></tuple>
+<tuple><atom label="traces0"/><atom label="Scene1"/><atom label="Scene2"/></tuple>
+<tuple><atom label="traces0"/><atom label="Scene0"/><atom label="Scene3"/></tuple>
+<tuple><atom label="traces0"/><atom label="Scene2"/><atom label="Scene1"/></tuple>
+<types><type ID="12"/><type ID="9"/><type ID="9"/></types>
+
+</field>
+
+<field label="pre" ID="15" parentID="8">
+<tuple><atom label="Event2"/><atom label="Scene2"/></tuple>
+<tuple><atom label="Event1"/><atom label="Scene2"/></tuple>
+<tuple><atom label="Event0"/><atom label="Scene1"/></tuple>
+<types><type ID="8"/><type ID="9"/></types>
+
+</field>
+
+<field label="carryOnAsignments" ID="16" parentID="8">
+<tuple><atom label="Event2"/><atom label="Actor0"/><atom label="Prop0"/></tuple>
+<tuple><atom label="Event2"/><atom label="Actor1"/><atom label="Prop1"/></tuple>
+<tuple><atom label="Event1"/><atom label="Actor0"/><atom label="Prop1"/></tuple>
+<tuple><atom label="Event1"/><atom label="Actor1"/><atom label="Prop0"/></tuple>
+<tuple><atom label="Event0"/><atom label="Actor0"/><atom label="Prop0"/></tuple>
+<tuple><atom label="Event0"/><atom label="Actor1"/><atom label="Prop1"/></tuple>
+<types><type ID="8"/><type ID="4"/><type ID="10"/></types>
+
+</field>
+
+<field label="post" ID="17" parentID="8">
+<tuple><atom label="Event2"/><atom label="Scene2"/></tuple>
+<tuple><atom label="Event1"/><atom label="Scene2"/></tuple>
+<tuple><atom label="Event0"/><atom label="Scene0"/></tuple>
+<types><type ID="8"/><type ID="9"/></types>
+
+</field>
+
+<field label="actorPos" ID="18" parentID="9">
+<tuple><atom label="Scene3"/><atom label="Actor0"/><atom label="Left0"/></tuple>
+<tuple><atom label="Scene3"/><atom label="Actor1"/><atom label="Right0"/></tuple>
+<tuple><atom label="Scene1"/><atom label="Actor0"/><atom label="Center0"/></tuple>
+<tuple><atom label="Scene1"/><atom label="Actor1"/><atom label="Center0"/></tuple>
+<tuple><atom label="Scene0"/><atom label="Actor0"/><atom label="Center0"/></tuple>
+<tuple><atom label="Scene0"/><atom label="Actor1"/><atom label="Center0"/></tuple>
+<tuple><atom label="Scene2"/><atom label="Actor0"/><atom label="Left0"/></tuple>
+<tuple><atom label="Scene2"/><atom label="Actor1"/><atom label="Left0"/></tuple>
+<types><type ID="9"/><type ID="4"/><type ID="5"/></types>
+
+</field>
+
+<field label="carryOffAsignments" ID="19" parentID="8">
+<tuple><atom label="Event2"/><atom label="Actor0"/><atom label="Prop0"/></tuple>
+<tuple><atom label="Event2"/><atom label="Actor1"/><atom label="Prop1"/></tuple>
+<tuple><atom label="Event1"/><atom label="Actor0"/><atom label="Prop1"/></tuple>
+<tuple><atom label="Event1"/><atom label="Actor1"/><atom label="Prop0"/></tuple>
+<tuple><atom label="Event0"/><atom label="Actor0"/><atom label="Prop0"/></tuple>
+<tuple><atom label="Event0"/><atom label="Actor1"/><atom label="Prop1"/></tuple>
+<types><type ID="8"/><type ID="4"/><type ID="10"/></types>
+
+</field>
+
+<field label="props" ID="20" parentID="9">
+<tuple><atom label="Scene1"/><atom label="Prop1"/></tuple>
+<tuple><atom label="Scene0"/><atom label="Prop1"/></tuple>
+<types><type ID="9"/><type ID="10"/></types>
+
+</field>
+
+<field label="term" ID="21" parentID="12">
+<tuple><atom label="traces0"/><atom label="Scene0"/></tuple>
+<tuple><atom label="traces0"/><atom label="Scene2"/></tuple>
+<types><type ID="12"/><type ID="9"/></types>
+
+</field>
+
+<field label="init" ID="22" parentID="12">
+<tuple><atom label="traces0"/><atom label="Scene3"/></tuple>
+<tuple><atom label="traces0"/><atom label="Scene1"/></tuple>
+<types><type ID="12"/><type ID="9"/></types>
+
+</field>
+
+<field label="propPos" ID="23" parentID="9">
+<tuple><atom label="Scene3"/><atom label="Prop1"/><atom label="Left0"/></tuple>
+<tuple><atom label="Scene3"/><atom label="Prop0"/><atom label="Left0"/></tuple>
+<tuple><atom label="Scene1"/><atom label="Prop1"/><atom label="Center0"/></tuple>
+<tuple><atom label="Scene1"/><atom label="Prop0"/><atom label="Left0"/></tuple>
+<tuple><atom label="Scene0"/><atom label="Prop1"/><atom label="Center0"/></tuple>
+<tuple><atom label="Scene0"/><atom label="Prop0"/><atom label="Left0"/></tuple>
+<tuple><atom label="Scene2"/><atom label="Prop1"/><atom label="Left0"/></tuple>
+<tuple><atom label="Scene2"/><atom label="Prop0"/><atom label="Left0"/></tuple>
+<types><type ID="9"/><type ID="10"/><type ID="5"/></types>
+
+</field>
+
+<field label="actors" ID="24" parentID="9">
+<tuple><atom label="Scene1"/><atom label="Actor0"/></tuple>
+<tuple><atom label="Scene1"/><atom label="Actor1"/></tuple>
+<tuple><atom label="Scene0"/><atom label="Actor0"/></tuple>
+<tuple><atom label="Scene0"/><atom label="Actor1"/></tuple>
+<types><type ID="9"/><type ID="4"/></types>
+
+</field>
+
+
+</instance>
+<source filename="/Users/lilymayo/LFS/L4S-Final-Project/prop_pass.rkt" content="#lang forge
+
+// a sig to represent a Scene.
+// Scenes act as the states involved in the Trace.
+sig Scene {
+    // the set of Actors ON STAGE/CENTER during this Scene
+    actors : set Actor,
+    // the set of Props ON STAGE/CENTER during this Scene
+    props : set Prop,
+    // the position of each Actor during this Scene
+    actorPos : set Actor -&amp;gt; Position,
+    // the Position of each Prop during this Scene
+    propPos : set Prop -&amp;gt; Position
+}
+
+// a predicate to ensure that if an Actor or prop is on stage
+// for a scene, then their position during that scene is Center
+pred onStageExactlyCenter {
+    all s : Scene | {s.actors = (s.actorPos).Center
+    s.props = (s.propPos).Center}
+}
+
+-- ensure every actor/prop is given a position in every scene
+pred allAccountedFor{
+    all s : Scene | {
+        (s.actorPos).Position = Actor
+        (s.propPos).Position = Prop
+        (~(s.actorPos)).(s.actorPos) in iden
+        (~(s.propPos)).(s.propPos) in iden
+    }       
+    //(~(s.actorPos)).(s.actorPos) in iden and  (~(s.propPos)).(s.propPos) in iden
+}
+
+pred positions{
+    onStageExactlyCenter
+    allAccountedFor
+}                 
+
+
+// a sig to represent an Actor.
+sig Actor {
+}
+
+// a sig to represent a Prop.
+sig Prop {
+}
+
+// a sig to represent a Position.
+// this is used for both Actors and Props.
+sig Position {}
+
+// this Position specifies OFF STAGE LEFT.
+one sig Left extends Position {}
+
+// this Position specifies OFF STAGE RIGHT.
+one sig Right extends Position {}
+
+// this Position specifies ON STAGE.
+one sig Center extends Position {}
+
+// a pred to ensure that all Positions are either Left, Right, or Center.
+// Position acts as an 'Abstract Class' this way.
+pred abstractPosition {
+    Position = Left + Right + Center
+}
+
+// a sig to represent an Event, which is a Scene Transition.
+sig Event {
+    // the set of Actor/Prop assignments to be carried on
+    carryOnAsignments : set Actor -&amp;gt; Prop,
+    // the set of Actor/Prop assignments to be carried off
+    carryOffAsignments : set Actor -&amp;gt; Prop,
+    // the Scene before this transition
+    pre: one Scene,
+    // the Scene after this transition
+    post: one Scene
+}
+
+-- ensures all prop assignments are functional and injective
+pred functionalAssignments{
+    all e: Event |  {(~(e.carryOnAsignments)).(e.carryOnAsignments) in iden
+    ((e.carryOnAsignments)).~(e.carryOnAsignments) in iden
+    (~(e.carryOffAsignments)).(e.carryOffAsignments) in iden
+    ((e.carryOffAsignments)).~(e.carryOffAsignments) in iden}
+}
+
+// a transition to constrain Scene Changes.
+transition[Scene] sceneChange[e: Event] {
+    e.pre = this
+    e.post = this'
+    -- the new props are the old ones, minus the ones that were carried off,
+    -- plus the ones that were carried on
+    props' = props - Actor.(e.carryOffAsignments) + Actor.(e.carryOnAsignments)
+    
+    -- the new actors must include the ones that were on before minus those who
+    -- carried props off plus those who carried props on
+    actors - (e.carryOffAsignments).Prop + (e.carryOnAsignments).Prop in actors'
+    
+    -- carry on pairs the actors and props that were offstage but will be on
+    (e.carryOnAsignments).Prop in (actors' - actors)
+    Actor.(e.carryOnAsignments) = (props' - props)
+    
+     -- carry off pairs the actors and props that were onstage but will be off
+    (e.carryOffAsignments).Prop in (actors - actors')
+    Actor.(e.carryOffAsignments) = (props - props')
+    
+    -- Ensures that if a given prop/actor pair is assigned, the actor's and prop's source and target positions are the same
+    all p : Prop | all a : Actor {
+        (p-&amp;gt;a in e.carryOffAsignments) or (p-&amp;gt;a in e.carryOnAsignments) =&amp;gt; a.actorPos' = p.propPos' and a.actorPos = p.propPos
+    }
+    
+    -- ensures that no actors move from LEFT to RIGHT and vice versa
+    no actorPos.Left &amp; actorPos'.Right
+    no actorPos.Right &amp; actorPos'.Left
+}
+
+state[Scene] initState{
+    -- constraints for the first state
+    no actors
+    no props
+}
+
+state[Scene] finalState {
+    -- constraints for the last state that should hold for a valid solution
+    no actors
+    no props
+}
+
+transition[Scene] model {
+    some e: Event | sceneChange[this, this', e]
+}
+
+pred interestingModel{
+    -- ensure there are some changes
+    some carryOnAsignments
+    some carryOffAsignments
+}
+
+pred toRun{
+    positions
+    abstractPosition
+    functionalAssignments
+    interestingModel
+}
+
+trace&amp;lt;|Scene, initState, model, finalState|&amp;gt; traces: linear {}
+
+--run&amp;lt;|traces|&amp;gt; toRun for exactly 3 Scene, exactly 2 Actor, exactly 1 Prop, exactly 2 Event, exactly 3 Position
+
+inst tester { 
+    Scene = Scene0 + Scene1 + Scene2 + Scene3
+    Event = Event0 + Event1 + Event2
+    Actor = Actor0 + Actor1
+    Prop = Prop0 + Prop1
+    actors = Scene0-&amp;gt;Actor0 + Scene0-&amp;gt;Actor1 + Scene1-&amp;gt;Actor1 + Scene1-&amp;gt;Actor0
+    props = Scene0-&amp;gt;Prop1 + Scene1-&amp;gt;Prop1
+}
+run {toRun} for tester
+"></source>
+</alloy>
