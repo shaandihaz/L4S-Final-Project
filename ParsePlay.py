@@ -2,30 +2,54 @@
 import sys
 from typing import List
 import xmltodict
+import json 
 
-def exampleParsing1(inst):
-	numActors = 0
-	numProps = 0
-	numScenes = 0
-	sceneList = []
+numActors = 0
+numProps = 0
+numScenes = 0
+sceneList = []
+# maps scene to event
+preMap = {}
+postMap = {}
+# maps event to scene
+preMapRev = {}
+postMapRev = {}
+# maps event to actor,prop
+carryOn = {}
+carryOff = {}
+# these are scenes
+init = None
+term = None
+# maps scene to actor,prop
+actorMap = {}
+propMap = {}
+# maps scene to a map from psoition to list of actor/prop
+actorPosMap = {}
+propPosMap = {}
+
+def parse(inst):
+	global numActors
+	global numProps
+	global numScenes
+	global sceneList
 	# maps scene to event
-	preMap = {}
-	postMap = {}
+	global preMap
+	global postMap
 	# maps event to scene
-	preMapRev = {}
-	postMapRev = {}
+	global preMapRev
+	global postMapRev
 	# maps event to actor,prop
-	carryOn = {}
-	carryOff = {}
+	global carryOn
+	global carryOff 
 	# these are scenes
-	init = None
-	term = None
+	global init
+	global term
 	# maps scene to actor,prop
-	actorMap = {}
-	propMap = {}
+	global actorMap
+	global propMap
 	# maps scene to a map from psoition to list of actor/prop
-	actorPosMap = {}
-	propPosMap = {}
+	global actorPosMap
+	global propPosMap
 
 	for s in inst['sig']:
 
@@ -99,7 +123,6 @@ def exampleParsing1(inst):
 				if atoms[0]['@label'] not in actorPosMap:
 					actorPosMap[atoms[0]['@label']] = {"Left0": [], "Right0": [], "Center0": []}
 				actorPosMap[atoms[0]['@label']][atoms[2]['@label']].append(atoms[1]['@label'])
-			print(actorPosMap)
 
 		if f['@label'] == "propPos":
 			for d in f['tuple']:
@@ -108,7 +131,7 @@ def exampleParsing1(inst):
 					propPosMap[atoms[0]['@label']] = {"Left0": [], "Right0": [], "Center0": []}
 				propPosMap[atoms[0]['@label']][atoms[2]['@label']].append(atoms[1]['@label'])
 
-
+def printParse():
 	s = init
 	sceneCount = 0
 	while True:
@@ -158,6 +181,49 @@ def exampleParsing1(inst):
 		sceneCount += 1
 		print("")
 
+def parseToJson():
+	bigMap = {"numActors" : numActors, "numProps": numProps, "numScenes": numScenes, "sceneData": {}}
+	s = init
+	sceneCount = 0
+	while True:
+		miniMap = {"carryOn": {}, "carryOff": {}, 
+		"props": [], "actors": [], 
+		"leftActors": [], "rightActors": [],
+		"leftProps": [], "rightProps": []}
+		if s in postMap:
+			precedingEvent = postMap[s]
+			if precedingEvent in carryOn:
+				for t in carryOn[precedingEvent]:
+					miniMap["carryOn"][t[0]] = t[1]
+		if s in actorMap:
+			for actor in actorMap[s]:
+				miniMap["actors"].append(actor)
+		if s in propMap:
+			for prop in propMap[s]:
+				miniMap["props"].append(actor)
+		if s in actorPosMap:
+			for actor in actorPosMap[s]["Left0"]:
+				miniMap["leftActors"].append(actor)
+			for actor in actorPosMap[s]["Right0"]:
+				miniMap["rightActors"].append(actor)
+		if s in propPosMap:
+			for prop in propPosMap[s]["Left0"]:
+				miniMap["leftProps"].append(actor)
+			for prop in propPosMap[s]["Right0"]:
+				miniMap["rightProps"].append(actor)
+		if s in preMap:
+			followingEvent = preMap[s]
+			if followingEvent in carryOff:
+				for t in carryOff[followingEvent]:
+					miniMap["carryOff"][t[0]] = t[1]
+		bigMap["sceneData"]["Scene " + str(sceneCount)] = miniMap
+		if s == term:
+			break
+		nextEvent = preMap[s]
+		s = postMapRev[nextEvent]
+		sceneCount += 1
+
+	return json.dumps(bigMap)
 
 
 if __name__ == "__main__":
@@ -165,6 +231,7 @@ if __name__ == "__main__":
 	fd = open(sys.argv[1])
 	doc = xmltodict.parse(fd.read())
 	inst = doc['alloy']['instance']
-	exampleParsing1(inst)
+	parse(inst)
+	print(parseToJson())
 
 	

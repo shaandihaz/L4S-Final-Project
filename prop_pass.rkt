@@ -148,12 +148,10 @@ trace<|Scene, initState, model, finalState|> traces: linear {}
 --run<|traces|> toRun for exactly 3 Scene, exactly 2 Actor, exactly 1 Prop, exactly 2 Event, exactly 3 Position
 
 inst tester { 
-    Scene = Scene0 + Scene1 + Scene2 + Scene3
-    Event = Event0 + Event1 + Event2 + Event3
-    Actor = Actor0 + Actor1
-    Prop = Prop0 + Prop1
-    actors = Scene1->Actor0 + Scene1->Actor1 + Scene2->Actor0 + Scene2->Actor1
-    props = Scene1->Prop0 + Scene1->Prop1 + Scene2->Prop0 + Scene2->Prop1
+    Scene = Scene0 + Scene1 + Scene2 + Scene3 + Scene4 + Scene5 + Scene6 + Scene7
+    Event = Event0 + Event1 + Event2 + Event3 + Event4 + Event5 + Event6 + Event7
+    Actor = Actor0 + Actor1 + Actor2 + Actor3
+    Prop = Prop0 + Prop1 + Prop2 + Prop3 + Prop4
+    actors = Scene1->Actor1 + Scene1->Actor2 + Scene1->Actor3 + Scene2->Actor0 + Scene2->Actor1 + Scene3->Actor2 + Scene3->Actor3 + Scene4->Actor1 + Scene4->Actor2 + Scene4->Actor3 + Scene5->Actor2 + Scene5->Actor3 + Scene5->Actor0 + Scene6->Actor0 + Scene6->Actor2
 }
-
 run<|traces|> toRun for tester

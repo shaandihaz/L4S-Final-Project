@@ -18,7 +18,7 @@ if __name__ == "__main__":
 
 # specify events
 	output += "Event = Event0"
-	for x in range(numScene + 1):
+	for x in range(numScene):
 		output += " + Event" + str(x + 1)
 	output += "\n" + tab
 
