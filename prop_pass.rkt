@@ -145,4 +145,14 @@ pred toRun{
 
 trace<|Scene, initState, model, finalState|> traces: linear {}
 
-run<|traces|> toRun for exactly 3 Scene, exactly 2 Actor, exactly 1 Prop, exactly 2 Event, exactly 3 Position
+--run<|traces|> toRun for exactly 3 Scene, exactly 2 Actor, exactly 1 Prop, exactly 2 Event, exactly 3 Position
+
+inst tester { 
+    Scene = Scene0 + Scene1 + Scene2 + Scene3
+    Event = Event0 + Event1 + Event2
+    Actor = Actor0 + Actor1
+    Prop = Prop0 + Prop1
+    actors = Scene0->Actor0 + Scene0->Actor1 + Scene1->Actor1 + Scene1->Actor0
+    props = Scene0->Prop1 + Scene1->Prop1
+}
+run {toRun} for tester

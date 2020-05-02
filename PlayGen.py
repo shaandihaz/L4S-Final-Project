@@ -16,6 +16,12 @@ if __name__ == "__main__":
 		output += " + Scene" + str(x + 1)
 	output += " + Scene" + str(numScene + 1) + "\n" + tab
 
+# specify events
+	output += "Event = Event0"
+	for x in range(numScene):
+		output += " + Event" + str(x + 1)
+	output += "\n" + tab
+
 # overall actors
 	numActor = input("How many actors? ")
 	numActor = int(numActor)
