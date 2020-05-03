@@ -200,7 +200,7 @@ def parseToJson():
 				miniMap["actors"].append(actor)
 		if s in propMap:
 			for prop in propMap[s]:
-				miniMap["props"].append(actor)
+				miniMap["props"].append(prop)
 		if s in actorPosMap:
 			for actor in actorPosMap[s]["Left0"]:
 				miniMap["leftActors"].append(actor)
