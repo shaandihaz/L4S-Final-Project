@@ -48,6 +48,22 @@ It represents a 'Scene Change' or 'Blackout' in theatre terms. Below are the fie
 + _initState_: constrains the first Scene in the trace to have no Actors onstage and no Props onstage
 + _finalState_: constrains the last Scene in the trace to have no Actors onstage and no Props onstage
 
+## Model w/ Weights
+
+After creating the first version of our model, we decided to expand upon it. We decided to add weights to our props, and carrying capacities to our actors. We added some sigs and Predicates to reflect this change.
+
+### New/Modified Sigs
++ _ones_: This is a sig that we sued to help represent weights and carrying capacity. You can think of every instance of ones as having a weight of one
+
++ _Actor_: we added a capacity field, which is a set of ones. The cardinality of this set is the total weight an Actor can carry.
+
++ _Prop_: we added a weight field, which is a set of ones. The cardinality of this set is the total weight of a prop.
+
+### New Preds
++ _uniqueWeight_: This ensures that every Actor and Prop has a capacity/weight of at least one, and that there is no intersection between their sets (allowing this helps when we need to combine capacities/weights later)
+
++ _constrainWeight_: This makes sure that the combines weight of the Props does not exceed the Actor's capacity, and that no prop is carried by more than one actor. 
+
 
 ### Transition
 + _sceneChange_: This is where most of our functionality lies. This transition constrains Events so that Actors can only carry props when both the Actor's and Prop's source Position and destination Position Align. The Position must also align with which Props and Actors are designated as being onstage during this Scene (if they are in this Scene's actors or props set respectively)
