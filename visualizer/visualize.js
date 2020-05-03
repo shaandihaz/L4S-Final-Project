@@ -39,6 +39,20 @@ function displayScene(sceneNumber) {
 		appendActor(a, "RIGHT");
 	});
 
+	const props = currScene["props"];
+	props.forEach(function(p) {
+		appendProp(p, "CENTER");
+	});
+
+	const propsLeft = currScene["leftProps"];
+	propsLeft.forEach(function(p) {
+		appendProp(p, "LEFT");
+	});
+
+	const propsRight = currScene["rightProps"];
+	propsRight.forEach(function(p) {
+		appendProp(p, "RIGHT");
+	});
 	// currScene["leftActors"]
 	// currScene["rightActors"]
 	// currScene["leftProps"]
@@ -46,16 +60,30 @@ function displayScene(sceneNumber) {
 }
 
 function appendActor(name, position) {
-
-	selector = `#${position} .actorContainer`
-
+	// constructs the selector for the actor container
+	selector = `#${position} .actorpropContainer`
+	// constructs the label for this actor
 	const n = name.charAt(name.length - 1);
-
+	// constructs the new element
 	newElt = `
 	<div class="btn btn-warning btn-circle btn-lg">
 		<span>A${n}</span>
 	</div>`
+	// appends the element to the container
+	$(selector).append(newElt);
+}
 
+function appendProp(name, position) {
+	// constructs the selector for the actor container
+	selector = `#${position} .actorpropContainer`
+	// constructs the label for this actor
+	const n = name.charAt(name.length - 1);
+	// constructs the new element
+	newElt = `
+	<div class="btn btn-primary btn-circle btn-lg">
+		<span>P${n}</span>
+	</div>`
+	// appends the element to the container
 	$(selector).append(newElt);
 }
 
@@ -97,7 +125,7 @@ $(document).ready(function() {
 		if (currScene == numScenes - 1) {
 			alert("There's no next scene!");
 		} else {
-			$(".actorContainer").empty();
+			$(".actorpropContainer").empty();
 			currScene = currScene + 1;
 			$("#sceneNum").html(`Scene ${currScene}`);
 			displayScene(currScene);
