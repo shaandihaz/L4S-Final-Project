@@ -6,7 +6,7 @@ let sceneData;
 let currScene = 0;
 
 function parse(raw_json) {
-	// empty the containers 
+	// empty the containers
 	$(".actorpropContainer").empty();
 
 	const json = JSON.parse(raw_json);
@@ -24,52 +24,79 @@ function parse(raw_json) {
 function displayScene(sceneNumber) {
 	const key = "Scene " + sceneNumber;
 	const currScene = sceneData[key];
-	// currScene["carryOff"]
-	// currScene["carryOn"]
-	// currScene["props"]
+	const carryOn = currScene["carryOn"];
+	const carryOff = currScene["carryOff"];
+
+	/*
+	console.log("ON...");
+	console.log(carryOn);
+	console.log("OFF...");
+	console.log(carryOff);
+	*/
+
+	// appending actors to CENTER
 	const actors = currScene["actors"];
 	actors.forEach(function(a) {
-		appendActor(a, "CENTER");
+		appendActor(a, "CENTER", carryOn, carryOff);
 	});
 
+	// appending leftActors to LEFT
 	const actorsLeft = currScene["leftActors"];
 	actorsLeft.forEach(function(a) {
-		appendActor(a, "LEFT");
+		appendActor(a, "LEFT", carryOn, carryOff);
 	});
 
+	// appending rightActors to RIGHT
 	const actorsRight = currScene["rightActors"];
 	actorsRight.forEach(function(a) {
-		appendActor(a, "RIGHT");
+		appendActor(a, "RIGHT", carryOn, carryOff);
 	});
 
+	// appending props to CENTER
 	const props = currScene["props"];
 	props.forEach(function(p) {
 		appendProp(p, "CENTER");
 	});
 
+	// appending leftProps to LEFT
 	const propsLeft = currScene["leftProps"];
 	propsLeft.forEach(function(p) {
 		appendProp(p, "LEFT");
 	});
 
+	// appending rightProps to RIGHT
 	const propsRight = currScene["rightProps"];
 	propsRight.forEach(function(p) {
 		appendProp(p, "RIGHT");
 	});
-	// currScene["leftActors"]
-	// currScene["rightActors"]
-	// currScene["leftProps"]
-	// currScene["rightProps"]
+
+	// initialize all tooltips
+	$('[data-toggle="tooltip"]').tooltip();
 }
 
-function appendActor(name, position) {
+function appendActor(name, position, carryOn, carryOff) {
+
+	// will remain blank, and thus not be added to the elt,
+	// if this actor will not be carrying any props
+	let tooltip = "";
+
+	if (carryOn[name]) {
+		const title = `${name} will carry on ${carryOn[name]}`
+		tooltip = `data-toggle="tooltip" data-placement="top" title="${title}"`
+	}
+
+	if (carryOff[name]) {
+		const title = `${name} will carry off ${carryOff[name]}`
+		tooltip = `data-toggle="tooltip" data-placement="top" title="${title}"`
+	}
+
 	// constructs the selector for the actor container
 	selector = `#${position} .actorpropContainer`
 	// constructs the label for this actor
 	const n = name.charAt(name.length - 1);
 	// constructs the new element
 	newElt = `
-	<div class="btn btn-danger btn-circle btn-lg">
+	<div class="btn btn-danger btn-circle btn-lg" ${tooltip}>
 		<span>A${n}</span>
 	</div>`
 	// appends the element to the container
