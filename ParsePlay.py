@@ -190,11 +190,17 @@ def parseToJson():
 		"props": [], "actors": [], 
 		"leftActors": [], "rightActors": [],
 		"leftProps": [], "rightProps": []}
-		if s in postMap:
-			precedingEvent = postMap[s]
-			if precedingEvent in carryOn:
-				for t in carryOn[precedingEvent]:
+		if s in preMap:
+			followingEvent = preMap[s]
+			if followingEvent in carryOn:
+				for t in carryOn[followingEvent]:
 					miniMap["carryOn"][t[0]] = t[1]
+		if s in preMap:
+			followingEvent = preMap[s]
+			if followingEvent in carryOff:
+				for t in carryOff[followingEvent]:
+					miniMap["carryOff"][t[0]] = t[1]
+		bigMap["sceneData"]["Scene " + str(sceneCount)] = miniMap
 		if s in actorMap:
 			for actor in actorMap[s]:
 				miniMap["actors"].append(actor)
@@ -211,12 +217,6 @@ def parseToJson():
 				miniMap["leftProps"].append(prop)
 			for prop in propPosMap[s]["Right0"]:
 				miniMap["rightProps"].append(prop)
-		if s in preMap:
-			followingEvent = preMap[s]
-			if followingEvent in carryOff:
-				for t in carryOff[followingEvent]:
-					miniMap["carryOff"][t[0]] = t[1]
-		bigMap["sceneData"]["Scene " + str(sceneCount)] = miniMap
 		if s == term:
 			break
 		nextEvent = preMap[s]
