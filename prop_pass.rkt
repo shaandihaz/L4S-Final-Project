@@ -131,7 +131,8 @@ transition[Scene] model {
 }
 
 pred interestingModel{
-    -- ensure there are some changes
+    -- ensure there are some changes, include this in toRun to make your model
+    -- more interesting
     some carryOnAsignments
     some carryOffAsignments
 }
@@ -140,20 +141,75 @@ pred toRun{
     positions
     abstractPosition
     functionalAssignments
-    
+    some actors
 }
 
 trace<|Scene, initState, model, finalState|> traces: linear {}
 
 --run<|traces|> toRun for exactly 3 Scene, exactly 2 Actor, exactly 1 Prop, exactly 2 Event, exactly 3 Position
 
-inst tester { 
-    Scene = Scene0 + Scene1 + Scene2 + Scene3
-    Event = Event0 + Event1 + Event2
-    Actor = Actor0 + Actor1 + Actor2 + Actor3 + Actor4 + Actor5 + Actor6 + Actor7 + Actor8
-    Prop = Prop0 + Prop1
-    actors = Scene1->Actor0 + Scene1->Actor1 + Scene1->Actor2 + Scene1->Actor3 + Scene1->Actor4 + Scene1->Actor5 + Scene2->Actor5 + Scene2->Actor6 + Scene2->Actor7 + Scene2->Actor8
-    props = Scene1->Prop0 + Scene2->Prop1
+inst oneSceneOneActorOneProp {
+    traces_inst
+    Scene = Scene0 + Scene1 + Scene2
+    Event = Event0 + Event1
+    Actor = Actor0
+    Prop = Prop0
+    actors = Scene1->Actor0
+    props = Scene1->Prop0
+    pre = Event0->Scene0 + Event1->Scene1
+    post = Event0->Scene1 + Event1->Scene2
+    carryOnAsignments = Event0->Actor0->Prop0
+    carryOffAsignments = Event1->Actor0->Prop0
 }
 
-run<|traces|> toRun for tester
+inst oneSceneNoActorOneProp {
+    traces_inst
+    Scene = Scene0 + Scene1 + Scene2
+    Event = Event0 + Event1
+    no Actor
+    Prop = Prop0
+    props = Scene1->Prop0
+}
+
+inst fiveScene3actor1Prop { 
+    Scene = Scene0 + Scene1 + Scene2 + Scene3 + Scene4 + Scene5 + Scene6
+    Event = Event0 + Event1 + Event2 + Event3 + Event4 + Event5
+    pre = Event0->Scene0 + Event1->Scene1 + Event2->Scene2 + Event3->Scene3 + Event4->Scene4 + Event5->Scene5
+    post = Event0->Scene1 + Event1->Scene2 + Event2->Scene3 + Event3->Scene4 + Event4->Scene5 + Event5->Scene6
+    Actor = Actor0 + Actor1 + Actor2
+    Prop = Prop0
+    actors = Scene1->Actor1 + Scene3->Actor2 + Scene4->Actor2 + Scene5->Actor2
+    props = Scene1->Prop0 + Scene3->Prop0 + Scene4->Prop0 + Scene5->Prop0
+}
+
+inst boilerInst {
+    traces_inst
+    Scene = Scene0 + Scene1 + Scene2 + Scene3 + Scene4 + Scene5 + Scene6 + Scene7 + Scene8 + Scene9 + Scene10 + Scene11
+    Event = Event0 + Event1 + Event2 + Event3 + Event4 + Event5 + Event6 + Event7 + Event8 + Event9 + Event10
+    pre = Event0->Scene0 + Event1->Scene1 + Event2->Scene2 + Event3->Scene3 + Event4->Scene4 + Event5->Scene5 + Event6->Scene6 + Event7->Scene7 + Event8->Scene8 + Event9->Scene9 + Event10->Scene10
+    post = Event0->Scene1 + Event1->Scene2 + Event2->Scene3 + Event3->Scene4 + Event4->Scene5 + Event5->Scene6 + Event6->Scene7 + Event7->Scene8 + Event8->Scene9 + Event9->Scene10 + Event10->Scene11
+    Actor = Actor0 + Actor1 + Actor2 + Actor3 + Actor4
+    Prop = Prop0 + Prop1 + Prop2 + Prop3 + Prop4
+}
+
+
+pred propsChangeActorsDont{
+    toRun
+    some e: Event | some s1: Scene | some s2: Scene {
+        e.pre = s1
+        e.post = s2
+        s1.actors = s2.actors
+        s1.props != s2.props
+}
+}
+
+test expect {
+    -- a very simple instance where only one assignment is possible
+    oneSceneOneActorOneProp : {traces_fact and toRun} for {oneSceneOneActorOneProp} is sat
+    -- a very simple instance that should not be sat
+    oneSceneNoActorOneProp : {traces_fact and toRun} for {oneSceneNoActorOneProp} is unsat
+    -- slightly more complex play that should be possible
+    fiveScene3actor1Prop : {traces_fact and toRun} for {fiveScene3actor1Prop} is sat
+    -- this pred ensures that props are never spontaneously coming on or off stage
+    propsChangeActorsDont: {traces_fact and propsChangeActorsDont} for {boilerInst} is unsat
+}

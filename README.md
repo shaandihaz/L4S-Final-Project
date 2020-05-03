@@ -42,7 +42,7 @@ It represents a 'Scene Change' or 'Blackout' in theatre terms. Below are the fie
 + _allAccountedFor_: a predicate to ensure that all Props and Actors have a Position during all Scenes.
 + _positions_: ensures that _onStageExactlyCenter_ and _allAccountedFor_
 + _abstractPosition_: ensures that there are exactly three Positions: Left, Right, and Center.
-+ _functionalAssignments_: LILY CAN YOU EXPLAIN THIS ONE HEHE
++ _functionalAssignments_: ensures that carryOnAsignments and carryOffAsignments are functional (every actor who has a prop, has only one prop) and injective (every prop has only one actor)
 
 ### State
 + _initState_: constrains the first Scene in the trace to have no Actors onstage and no Props onstage
@@ -56,6 +56,6 @@ It represents a 'Scene Change' or 'Blackout' in theatre terms. Below are the fie
 In addition to our Forge spec, we have included python scripts, as well as a webpage made with HTML/CSS/JS in order to visualize our model! The pipeline is as follows:
 
 1. Use PlayGen.py to generate a play inst
-2. Copy and Paste the inst into Forge and run our spec
+2. Copy and Paste the inst into Forge and run our spec (make sure the active command is `run<|traces|> toRun for [name of your inst]`)
 3. Use ParsePlay.py on the xml produced by Forge
 4. Open the webpage, and use the file upload button to select the json that was produced by ParsePlay.py

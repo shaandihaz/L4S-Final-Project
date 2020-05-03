@@ -22,6 +22,16 @@ if __name__ == "__main__":
 		output += " + Event" + str(x + 1)
 	output += "\n" + tab
 
+	output += "pre = Event0->Scene0"
+	for x in range(numScene):
+		output += " + Event" + str(x + 1) + "->Scene"+ str(x + 1)
+	output += "\n" + tab
+
+	output += "post = Event0->Scene1"
+	for x in range(numScene):
+		output += " + Event" + str(x + 1) + "->Scene"+ str(x + 2)
+	output += "\n" + tab
+
 # overall actors
 	numActor = input("How many actors? ")
 	numActor = int(numActor)
