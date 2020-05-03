@@ -28,6 +28,7 @@ pred allAccountedFor{
         (~(s.actorPos)).(s.actorPos) in iden
         (~(s.propPos)).(s.propPos) in iden
     }       
+    //(~(s.actorPos)).(s.actorPos) in iden and  (~(s.propPos)).(s.propPos) in iden
 }
 
 pred positions{
@@ -197,8 +198,7 @@ inst oneSceneNoActorOneProp {
     props = Scene1->Prop0
 }
 
-inst fiveScene3actor1Prop {
-    traces_inst
+inst fiveScene3actor1Prop { 
     Scene = Scene0 + Scene1 + Scene2 + Scene3 + Scene4 + Scene5 + Scene6
     Event = Event0 + Event1 + Event2 + Event3 + Event4 + Event5
     pre = Event0->Scene0 + Event1->Scene1 + Event2->Scene2 + Event3->Scene3 + Event4->Scene4 + Event5->Scene5
@@ -230,18 +230,17 @@ pred propsChangeActorsDont{
 }
 }
 
-
-pred morePropsThanActorsInFirst{
+pred actorCarryingTwoProps {
     toRun
-    some s: Scene | all e : Event | {
-        e.post != s
-        #(s.props) > #(s.actors) 
-   }
+    some e : Event | some p1 : Prop | some p2 : Prop - p1 | some a : Actor {
+        p1 in e.carryOnAsignments.a
+        p2 in e.carryOnAsignments.a
+    }
 }
 
 test expect {
     -- an instance with no Prop sigs. Shows that Actors can move around empty-handed.
-    noProps : {traces_fact and toRun} for {noProps} is sat
+    --noProps : {traces_fact and toRun} for {noProps} is sat
     -- an instance with no Actor sigs.
     noActors : {traces_fact and toRun} for {noActors} is sat
     -- a very simple instance where only one assignment is possible
@@ -252,6 +251,6 @@ test expect {
     fiveScene3actor1Prop : {traces_fact and toRun} for {fiveScene3actor1Prop} is sat
     -- this pred ensures that props are never spontaneously coming on or off stage
     propsChangeActorsDont: {traces_fact and propsChangeActorsDont} for {boilerInst} is unsat
-    -- this pred ensures that there cannot be more props than actors in the first scene
-    morePropsThanActorsInFirst: {traces_fact and morePropsThanActorsInFirst} for {boilerInst} is unsat
+    -- this pred ensures that an actor cannot carry two props
+    actorCarryingTwoProps: {traces_fact and actorCarryingTwoProps} for {boilerInst} is unsat
 }
