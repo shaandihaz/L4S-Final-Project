@@ -51,3 +51,11 @@ It represents a 'Scene Change' or 'Blackout' in theatre terms. Below are the fie
 
 ### Transition
 + _sceneChange_: This is where most of our functionality lies. This transition constrains Events so that Actors can only carry props when both the Actor's and Prop's source Position and destination Position Align. The Position must also align with which Props and Actors are designated as being onstage during this Scene (if they are in this Scene's actors or props set respectively)
+
+## Visualization
+In addition to our Forge spec, we have included python scripts, as well as a webpage made with HTML/CSS/JS in order to visualize our model! The pipeline is as follows:
+
+1. Use PlayGen.py to generate a play inst
+2. Copy and Paste the inst into Forge and run our spec
+3. Use ParsePlay.py on the xml produced by Forge
+4. Open the webpage, and use the file upload button to select the json that was produced by ParsePlay.py
