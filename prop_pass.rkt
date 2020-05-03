@@ -141,12 +141,39 @@ pred toRun{
     positions
     abstractPosition
     functionalAssignments
-    some actors
 }
 
 trace<|Scene, initState, model, finalState|> traces: linear {}
 
 --run<|traces|> toRun for exactly 3 Scene, exactly 2 Actor, exactly 1 Prop, exactly 2 Event, exactly 3 Position
+
+inst noProps {
+    traces_inst
+    Scene = Scene0 + Scene1 + Scene2
+    Event = Event0 + Event1
+    Actor = Actor0 + Actor1
+    Prop = Prop0
+    actors = Scene1->Actor0 + Scene1->Actor1
+    no props
+    pre = Event0->Scene0 + Event1->Scene1
+    post = Event0->Scene1 + Event1->Scene2
+    no carryOnAsignments
+    no carryOffAsignments
+}
+
+inst noActors {
+    traces_inst
+    Scene = Scene0 + Scene1 + Scene2
+    Event = Event0 + Event1
+    no Actor
+    Prop = Prop0 + Prop1
+    no actors
+    no props
+    pre = Event0->Scene0 + Event1->Scene1
+    post = Event0->Scene1 + Event1->Scene2
+    no carryOnAsignments
+    no carryOffAsignments
+}
 
 inst oneSceneOneActorOneProp {
     traces_inst
@@ -204,6 +231,10 @@ pred propsChangeActorsDont{
 }
 
 test expect {
+    -- an instance with no Prop sigs. Shows that Actors can move around empty-handed.
+    noProps : {traces_fact and toRun} for {noProps} is sat
+    -- an instance with no Actor sigs.
+    noActors : {traces_fact and toRun} for {noActors} is sat
     -- a very simple instance where only one assignment is possible
     oneSceneOneActorOneProp : {traces_fact and toRun} for {oneSceneOneActorOneProp} is sat
     -- a very simple instance that should not be sat

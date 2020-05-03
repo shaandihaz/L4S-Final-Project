@@ -27,13 +27,6 @@ function displayScene(sceneNumber) {
 	const carryOn = currScene["carryOn"];
 	const carryOff = currScene["carryOff"];
 
-	/*
-	console.log("ON...");
-	console.log(carryOn);
-	console.log("OFF...");
-	console.log(carryOff);
-	*/
-
 	// appending actors to CENTER
 	const actors = currScene["actors"];
 	actors.forEach(function(a) {
