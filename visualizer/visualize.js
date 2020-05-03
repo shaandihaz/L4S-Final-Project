@@ -6,6 +6,9 @@ let sceneData;
 let currScene = 0;
 
 function parse(raw_json) {
+	// empty the containers 
+	$(".actorpropContainer").empty();
+
 	const json = JSON.parse(raw_json);
 	numActors = json["numActors"];
 	numProps = json["numProps"];
