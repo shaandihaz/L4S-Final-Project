@@ -208,9 +208,9 @@ def parseToJson():
 				miniMap["rightActors"].append(actor)
 		if s in propPosMap:
 			for prop in propPosMap[s]["Left0"]:
-				miniMap["leftProps"].append(actor)
+				miniMap["leftProps"].append(prop)
 			for prop in propPosMap[s]["Right0"]:
-				miniMap["rightProps"].append(actor)
+				miniMap["rightProps"].append(prop)
 		if s in preMap:
 			followingEvent = preMap[s]
 			if followingEvent in carryOff:
