@@ -28,7 +28,7 @@ The States in the Trace are the __Scene__ sigs. The transitions in the Trace are
 
 + _Right_: This sig extends Position, and represents __off stage right__
 
-+ _Center_: This sig extends Position, and represents __on stage__
++ _Center_: This sig extends Position, and represents __onstage__
 
 + _Event_: This sig is used as the parameter to the transitions in the trace. 
 It represents a 'Scene Change' or 'Blackout' in theatre terms. Below are the fields of Event:
@@ -38,16 +38,16 @@ It represents a 'Scene Change' or 'Blackout' in theatre terms. Below are the fie
   - post (one Scene): The Scene after this Event
 
 ### Preds
-+ _onStageExactlyCenter_
-+ _allAccountedFor_
-+ _positions_
-+ _abstractPosition_
-+ _functionalAssignments_
++ _onStageExactlyCenter_: a predicate to ensure that the position of any Prop or Actor during the Scene(s) they're onstage for is Center.
++ _allAccountedFor_: a predicate to ensure that all Props and Actors have a Position during all Scenes.
++ _positions_: ensures that _onStageExactlyCenter_ and _allAccountedFor_
++ _abstractPosition_: ensures that there are exactly three Positions: Left, Right, and Center.
++ _functionalAssignments_: LILY CAN YOU EXPLAIN THIS ONE HEHE
 
 ### State
-+ _initState_
-+ _finalState_
++ _initState_: constrains the first Scene in the trace to have no Actors onstage and no Props onstage
++ _finalState_: constrains the last Scene in the trace to have no Actors onstage and no Props onstage
 
 
 ### Transition
-+ _sceneChange_
++ _sceneChange_: This is where most of our functionality lies. This transition constrains Events so that Actors can only carry props when both the Actor's and Prop's source Position and destination Position Align. The Position must also align with which Props and Actors are designated as being onstage during this Scene (if they are in this Scene's actors or props set respectively)
