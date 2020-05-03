@@ -66,7 +66,7 @@ function appendActor(name, position) {
 	const n = name.charAt(name.length - 1);
 	// constructs the new element
 	newElt = `
-	<div class="btn btn-warning btn-circle btn-lg">
+	<div class="btn btn-danger btn-circle btn-lg">
 		<span>A${n}</span>
 	</div>`
 	// appends the element to the container
@@ -113,7 +113,7 @@ $(document).ready(function() {
 		if (currScene == 0) {
 			alert("There's no previous scene!");
 		} else {
-			$(".actorContainer").empty();
+			$(".actorpropContainer").empty();
 			currScene = currScene - 1;
 			$("#sceneNum").html(`Scene ${currScene}`);
 			displayScene(currScene);
