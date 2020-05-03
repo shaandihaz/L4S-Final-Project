@@ -28,7 +28,6 @@ pred allAccountedFor{
         (~(s.actorPos)).(s.actorPos) in iden
         (~(s.propPos)).(s.propPos) in iden
     }       
-    //(~(s.actorPos)).(s.actorPos) in iden and  (~(s.propPos)).(s.propPos) in iden
 }
 
 pred positions{
@@ -203,7 +202,8 @@ inst oneSceneNoActorOneProp {
     props = Scene1->Prop0
 }
 
-inst fiveScene3actor1Prop { 
+inst fiveScene3actor1Prop {
+    traces_inst
     Scene = Scene0 + Scene1 + Scene2 + Scene3 + Scene4 + Scene5 + Scene6
     Event = Event0 + Event1 + Event2 + Event3 + Event4 + Event5
     pre = Event0->Scene0 + Event1->Scene1 + Event2->Scene2 + Event3->Scene3 + Event4->Scene4 + Event5->Scene5

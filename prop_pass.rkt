@@ -28,7 +28,6 @@ pred allAccountedFor{
         (~(s.actorPos)).(s.actorPos) in iden
         (~(s.propPos)).(s.propPos) in iden
     }       
-    //(~(s.actorPos)).(s.actorPos) in iden and  (~(s.propPos)).(s.propPos) in iden
 }
 
 pred positions{
@@ -171,7 +170,8 @@ inst oneSceneNoActorOneProp {
     props = Scene1->Prop0
 }
 
-inst fiveScene3actor1Prop { 
+inst fiveScene3actor1Prop {
+    traces_inst
     Scene = Scene0 + Scene1 + Scene2 + Scene3 + Scene4 + Scene5 + Scene6
     Event = Event0 + Event1 + Event2 + Event3 + Event4 + Event5
     pre = Event0->Scene0 + Event1->Scene1 + Event2->Scene2 + Event3->Scene3 + Event4->Scene4 + Event5->Scene5
@@ -203,6 +203,15 @@ pred propsChangeActorsDont{
 }
 }
 
+
+pred morePropsThanActorsInFirst{
+    toRun
+    some s: Scene | all e : Event | {
+        e.post != s
+        #(s.props) > #(s.actors) 
+   }
+}
+
 test expect {
     -- a very simple instance where only one assignment is possible
     oneSceneOneActorOneProp : {traces_fact and toRun} for {oneSceneOneActorOneProp} is sat
@@ -212,4 +221,6 @@ test expect {
     fiveScene3actor1Prop : {traces_fact and toRun} for {fiveScene3actor1Prop} is sat
     -- this pred ensures that props are never spontaneously coming on or off stage
     propsChangeActorsDont: {traces_fact and propsChangeActorsDont} for {boilerInst} is unsat
+    -- this pred ensures that there cannot be more props than actors in the first scene
+    morePropsThanActorsInFirst: {traces_fact and morePropsThanActorsInFirst} for {boilerInst} is unsat
 }
